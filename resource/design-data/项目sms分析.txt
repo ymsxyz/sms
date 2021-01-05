@@ -1,0 +1,89 @@
+乙方:
+设计规范:
+    项目名称:ssm
+
+    1.实体类
+        1.1 学校 School:List<Classg> 不需创建
+                当前系统默认只有一个学校，所以使用List<班级> 结构类型存储数据；
+        1.2 班级 Classg Map<String,Student>   实现序列化 注意:Class为关键字
+            班级实体：
+                名称：String
+                学生集：HashSet<学生>
+        1.3 学生 Student  实现序列化
+            学生属性：
+                姓名String
+                学号String（格式：yyyy-xxxx == 入学年份-随机数）
+                性别String
+                年龄Integer
+                出生日期Date（格式：yyyy-MM-dd）
+
+    2.方法
+        通用:
+        a1 根据班级名称查找班级并返回  Classg getClassgByClassgName(String classgName)
+        a2 根据学生姓名在班级查找学生并返回 Student getStudentByNameFromClassg(String studentName, Classg classg)
+        甲方功能:(参数:无 方法体内接收录入信息)
+        2.1 void addClassg()
+            参数:班级名 返回值:无
+            方法体:school增加一个班级
+        2.2 void checkSchool()
+            参数:无 返回值:void  注意:只有一个学校,唯一确定,内部直接调用即可
+            方法体:school遍历打印班级
+        2.3 Classg checkClassgByClassgName(String classgName)
+             方法体:遍历school,比较班级名,返回班级实体  注意:无则返回null
+        2.4 void addAStudent()
+            参数:无 返回值:无
+            方法体:接收数据生成一个学生,调用2.3方法获取该班级实体,将该名学生加入班级中
+        2.5 void checkStudentByClassgName(String classgName)
+            参数:班级名 返回值:无
+            方法体:遍历school查找遍历该班级
+        2.6 Student checkClassgNameAndStudentName(String classgName,String studentName)
+            参数:班级名,学生名 返回值:学生
+            方法体:调用2.3方法出入班级名获取班级对象,遍历班级判断是该学生则打印
+        2.7.Student deleteAStudentByClassgNameAndStuName()
+            参数:无 返回值:无
+            调用a1获得班级,a2获得学生,班级删除该学生
+        2.8.在第四步中若用户输入错（不存在当前班级）则不能正常加入到某个班级，此时需要用户重新输入，改造第四步的方法进行实现（提示：无限循环）
+        2.9 HashMap<String,Integer> statisticsFirstNameByClassgName() 姓,数
+            调用a1得到班级,遍历班级集合,用put方法添加
+            根据班级名称统计当前班级不同姓氏出现的次数（提示可以利用Map进行统计，函数的返回结果也是Map）
+        2.10 int statisticsNumByYear()
+             遍历学校,班级的班级集合,对每个学生的学号判断并计数
+             根据输入年份，统计全校该年份入学的人数（提示学号前四位就是年份，可用String的方法获得）
+
+    3.界面设计
+        使用死循环+ switch用数字录入1-9模拟选择按钮
+    4.技术选型
+        1.学校 有索引,可能会有1-13班按顺序的要求  使用ArrayList
+        2.班级 名唯一 键值对,不需首尾操作  使用HashMap
+            班级集合:HashSet 不需索引,不可重复,两个学生一定不同
+        3.查询输入错误回主菜单,增删改都死循环,必须对才能正常结束序列化
+
+    问题:
+        1.功能分离,录入数据功能全部封装在每个方法内,case下方法直接调用简洁
+        2.新建班级,班级集合属性为null,必须初始化为空集合[]
+        3.功能最好有返回值,方便其他方法调用,扩展型好
+        4.实现按需退出该方法
+            1.1 while(true)
+            4.2 return
+        5....
+
+甲方:功能要求：
+    1.添加班级
+    2.查看所有班级（遍历打印）
+    3.根据名称查询班级（自定义方法传入班级名称，返回班级实体类型）
+    4.定义方法创建一个学生对象，并且手动录入学生的所有属性（Scanner）；然后提示用户输入班级名称，将当前创建的学生对象放入到对应班级名称的对象中；
+    5.定义方法，根据班级名称查询班级所有学生（即在控制台打印所有的学生信息）
+    6.定义方法，根据班级名称，学生姓名查询学生
+
+    扩展实现：
+    7.根据班级名称以及学生姓名删除学生（不用处理同名情况，同名删除第一个）
+    8.在第四步中若用户输入错（不存在当前班级）则不能正常加入到某个班级，此时需要用户重新输入，改造第四步的方法进行实现（提示：无限循环）
+    9.根据班级名称统计当前班级不同姓氏出现的次数（提示可以利用Map进行统计，函数的返回结果也是Map）
+    10.根据输入年份，统计全校该年份入学的人数（提示学号前四位就是年份，可用String的方法获得）
+
+    个人扩展:
+     1.将学校信息序列化到资源文件夹下的学校文本中(没有按"0"正常退出,则不更新)
+     2.将学校信息序列化到资源文件夹下的学校文本中
+     未实现:
+        3.创建班级和学生对象时,限定属性
+        4.
