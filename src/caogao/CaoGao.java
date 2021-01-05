@@ -14,6 +14,9 @@ public class CaoGao {
 
     public static void main(String[] args) {
 
+        //测试
+        System.out.println("version 2.0");
+
         HashSet<String> hashSet = new HashSet<>();
         Collections.addAll(hashSet, "a", "b", "c", "d");
 
